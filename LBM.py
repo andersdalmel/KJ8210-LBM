@@ -84,7 +84,7 @@ class LBM():
         k = 2*np.pi/(self.L/10)
         u_x = U*(np.tanh((y-0.25*self.L)/d) - np.tanh((y-0.75*self.L)/d) - 1)
         # u_x = U*np.heaviside(y-self.L/2, 0.5) # for fun
-        u_y = np.heaviside(x-self.L, 0)# u_0y*np.sin(k*x) #task 3 check
+        u_y =  u_0y*np.sin(k*x) #task 3 check
         return np.stack([u_x, u_y], axis = -1, dtype = np.float64)
     
     def __u_dbg(self):
@@ -107,7 +107,7 @@ class LBM():
         u_0y = 0.001
         k = 2*np.pi/(self.L/10)
     
-        C = (C_0/2)*(np.tanh((y-0.25*self.L)/d) - np.tanh((y-0.75*self.L)/d))*u_0y*np.sin(k*x)
+        C = (C_0/2)*(np.tanh((y-0.25*self.L)/d) - np.tanh((y-0.75*self.L)/d))#*np.abs(u_0y*np.sin(k*x))
         # C = np.heaviside(y-self.L/2, 0.5) #for fun
         C_init = self.weights[:, None, None]*C[None, :, :]*(1+3*np.einsum("ia, xya -> ixy", self.c_i_float, self.u))
 
